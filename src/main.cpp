@@ -27,6 +27,18 @@ static std::optional<std::vector<std::byte>> ReadFile(const std::string &path)
     return std::move(contents);
 }
 
+// Validate user input
+void UserInput(float &coordinate)
+{
+    std::cin >> coordinate;
+
+    while (std::cin.fail() || (coordinate<0 && coordinate>100)){
+        std::cin.clear();
+        std::cout << "Input Error: enter a number between 0 and 100.";
+        std::cin >> coordinate;
+    }
+}
+
 int main(int argc, const char **argv)
 {    
     std::string osm_data_file = "";
@@ -51,25 +63,25 @@ int main(int argc, const char **argv)
         else
             osm_data = std::move(*data);
     }
-    
-    // User input for coordinates
+
+    // coordinates variables
     float start_x;
     float start_y;
     float end_x;
     float end_y;
-    
+
     //user input
     std::cout << "Enter the start point x-coordinate (0-100 range): ";
-    std::cin >> start_x;
+    UserInput(start_x);
 
     std::cout << "Enter the start point y-coordinate (0-100 range): ";
-    std::cin >> start_y;
+    UserInput(start_y);
 
     std::cout << "Enter the end point x-coordinate (0-100 range): ";
-    std::cin >> end_x;
+    UserInput(end_x);
     
     std::cout << "Enter the end point y-coordinate (0-100 range): ";
-    std::cin >> end_y;
+    UserInput(end_y);
 
     // Build Model.
     RouteModel model{osm_data};

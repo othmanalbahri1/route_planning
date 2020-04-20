@@ -1,5 +1,6 @@
 #include "route_planner.h"
 #include <algorithm>
+#include <limits>
 
 RoutePlanner::RoutePlanner(RouteModel &model, float start_x, float start_y, float end_x, float end_y): m_Model(model) {
     // Convert inputs to percentage:
@@ -29,7 +30,7 @@ void RoutePlanner::AddNeighbors(RouteModel::Node *current_node) {
         neighbor->h_value = CalculateHValue(neighbor);
         neighbor->g_value = current_node->g_value + current_node->distance(*neighbor);
         neighbor->visited = true;
-        open_list.push_back(neighbor);
+        open_list.emplace_back(neighbor);
     }
 }
 
